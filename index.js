@@ -2,6 +2,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const sessionParser  = require('express-session')
+const api = require('./api')
+const isLogin = require('./middleware/isLogin')
 const app = express()
 
 app.use(cookieParser())
@@ -15,29 +17,39 @@ app.use(sessionParser({
 }))
 app.use(express.static(__dirname + '/static'))
 
+app.use(isLogin)
+
 app.get('/', (req, res) => {
   res.send('hello word')
 })
 
-app.post('/c', (req, res) => {  
-  res.cookie('username', "caae", { maxAge: 10000*2, httpOnly: true, signed:true })
-  res.cookie('pass', "ddd", { maxAge: 10000*2, httpOnly: true })
-  console.log(req.cookies)
-  res.status(200).send('sr')
-})
-app.get('/api/auth/login', function (req, res) {
-  const { query } = req
-  console.log(query)
-  if (!req.session.sign) {
-    req.session.sign = true
-    req.session.name = query.username
-  }
-  res.status(200).send({
-    data: { username: req.session.name }, 
-    code: 'success',
-    message: 'baoc,' + req.session.name
-  })
-})
+// app.post('/c', (req, res) => {  
+//   res.cookie('username', "caae", { maxAge: 10000*2, httpOnly: true, signed:true })
+//   res.cookie('pass', "ddd", { maxAge: 10000*2, httpOnly: true })
+//   res.status(200).send('sr')
+// })
+
+app.get('/api/auth/login', api.auth.login)
+app.get('/api/auth/list', api.auth.list)
+app.post('/api/auth/add', api.auth.add)
+app.post('/api/auth/del', api.auth.del)
+app.post('/api/auth/resetpassword', api.auth.resetpassword)
+app.post('/api/auth/updatepassword', api.auth.updatepassword)
+app.post('/api/auth/logout', api.auth.logout)
+
+app.get('/api/artcls/list', api.artcls.list)
+app.post('/api/artcls/create', api.artcls.create)
+app.post('/api/artcls/modify', api.artcls.modify)
+app.delete('/api/artcls/del', api.artcls.del)
+
+app.get('/api/article/list', api.article.list)
+app.post('/api/article/create', api.article.create)
+app.post('/api/article/search', api.article.search)
+app.get('/api/article/detail', api.article.detail)
+
+app.post('/api/file/uploadFile', api.file.uploadFile)
+
+
 app.listen(3000, () => {
   console.log('app is listen 3000')  
 })
