@@ -105,4 +105,29 @@ const del = async (req, res) => {
   }
 }
 
-module.exports = { list, create, modify, del }
+const detail = async (req, res) => {  
+  const { query } = req
+  if (!query._id) {
+    return res.status(200).send({
+      data: {}, 
+      code: 'fail',
+      message: '_id不能为空'
+    })
+  }
+  const result = await Artcls.findOne({ _id: query._id})
+  if (result) {
+    res.send({
+      data: result, 
+      code: 'success',
+      message: '操作成功'
+    })
+  } else {
+    res.status(200).send({
+      data: {}, 
+      code: 'fail',
+      message: '查询文章详情失败'
+    })
+  }
+}
+
+module.exports = { list, create, modify, del, detail }

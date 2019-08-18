@@ -21,7 +21,7 @@ const list = async (req, res) => {
 // 文章分页列表接口
 const search = async (req, res) => {
   const { body } = req
-  const { pageNum = 1, pageSize, title, createDate, authorName, categoryId} = body
+  const { pageNum = 1, pageSize, title, createDate, authorName, categoryId } = body
   const titleExp = new RegExp(title, 'i')
   const authExp = new RegExp(authorName, 'i')
   const searchFileds = {title: { $regex: titleExp }, authorName: { $regex: authExp }}

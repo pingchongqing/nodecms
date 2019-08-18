@@ -2,7 +2,7 @@ const { NOTLOGIN_CODE } = require('../config')
 
 const isLogin = (req, res, next) => {
   const { url, session } = req
-  if (url.includes('login')) {
+  if (url.includes('login') || url.includes('webApi')) {
     next()
   } else {
     if (session.sign) {

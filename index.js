@@ -50,6 +50,12 @@ app.get('/api/article/detail', api.article.detail)
 app.post('/api/file/uploadFile', api.file.uploadFile)
 
 
+app.get('/webApi/artcls/detail', api.artcls.detail)
+app.post('/webApi/article/search', api.article.search)
+app.get('/webApi/article/detail', api.article.detail)
+
+
+
 app.listen(3000, () => {
   console.log('app is listen 3000')  
 })

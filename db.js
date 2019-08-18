@@ -21,7 +21,8 @@ let admin = {
 }
 let artcls = {
   className: String,
-  singlePage: Boolean
+  singlePage: Boolean,
+  content: String
 }
 let article = {
   categoryId: { type: Schema.Types.ObjectId, ref: 'Artcls'},
